@@ -138,17 +138,17 @@ const PARTNERS = [
   {
     name: "17 Games!",
     badge: "Main Server",
-    desc: "Official 17 Games Community!",
+    desc: "Official 17 Games Studios Server!",
     url: LINKS.discord,
     logo: SITE_CONFIG.logo,
-    tags: [ { icon: "rocket", label: "Trading Boosts" }, { icon: "gift", label: "Giveaways" } ],
+    tags: [ { icon: "discord", label: "Kind & Respectful" }, { icon: "gift", label: "Giveaways" } ],
   },
   {
     name: "BRMS Trading",
     badge: "Main Server",
-    desc: "Our official Discord community — trading boost servers, giveaways, active traders and more.",
+    desc: "Bee ReMastered Simulators official Value List & Trade Server",
     url: "https://brms-values.vercel.app/",
     logo: "",
-    tags: [ { icon: "rocket", label: "Trading Boosts" }, { icon: "gift", label: "Giveaways" } ],
+    tags: [ { icon: "gift", label: "Trading Boosts" }, { icon: "gift", label: "Giveaways" } ],
   },
 ];
