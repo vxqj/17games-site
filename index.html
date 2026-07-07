@@ -8,22 +8,39 @@
 </head>
 <body>
 
+  <div class="hex-field" id="hexField"></div>
+
   <nav class="nav">
-    <div class="nav-logo"><span class="hex-dot"></span><span data-site-name>17Games</span></div>
+    <div class="nav-logo"><img src="images/logo.png" alt="17Games logo"><span data-site-name>17Games</span></div>
     <div class="nav-links">
-      <button data-view="viewZones" class="active">Zones</button>
+      <button data-view="viewHome" class="active">Home</button>
+      <button data-view="viewZones">Zones</button>
       <button data-view="viewStaff">Staff &amp; Credits</button>
       <button data-view="viewDevs">Developers</button>
     </div>
   </nav>
 
+  <!-- ===================== HOME ===================== -->
+  <section id="viewHome" class="view active">
+    <div class="home-hero">
+      <img src="images/logo.png" alt="17Games" class="home-logo">
+      <span class="eyebrow">Official Info Hub</span>
+      <h1>Welcome to <span>17Games</span></h1>
+      <p class="desc" data-tagline>The official info hub — zones, hives, rebirths & the team behind it.</p>
+
+      <div class="cta-row" id="ctaRow"></div>
+      <div class="home-stats" id="homeStats"></div>
+    </div>
+
+    <div class="section-cards" id="sectionCards"></div>
+  </section>
+
   <!-- ===================== ZONES ===================== -->
-  <section id="viewZones" class="view active">
-    <div class="hero">
+  <section id="viewZones" class="view">
+    <div class="page-head">
       <span class="eyebrow">12 Zones &middot; 2 Rebirths &middot; 1 Secret</span>
-      <h1>Every zone, every <span>hive</span>, one map.</h1>
-      <p data-tagline>The unofficial atlas of every zone, hive & rebirth.</p>
-      <div class="hero-stats" id="heroStats"></div>
+      <h2>Every zone, every hive, one map.</h2>
+      <p>Scroll through the full progression path below.</p>
     </div>
 
     <div class="path-wrap" id="zonePath"></div>
@@ -34,7 +51,7 @@
     <div class="page-head">
       <span class="eyebrow">Credits</span>
       <h2>Management Team</h2>
-      <p>The people running the hive.</p>
+      <p>The people running 17Games.</p>
     </div>
     <div class="grid" id="staffGrid"></div>
   </section>
@@ -44,13 +61,13 @@
     <div class="page-head">
       <span class="eyebrow">Credits</span>
       <h2>Developers</h2>
-      <p>The people building the hive.</p>
+      <p>The people building 17Games.</p>
     </div>
     <div class="grid" id="devGrid"></div>
   </section>
 
   <footer class="site-footer">
-    <span data-site-name>17Games</span> — built with <strong>🐝</strong> by the team above.
+    <span data-site-name>17Games</span> — official info hub, built by the team above.
   </footer>
 
   <script src="config.js"></script>
