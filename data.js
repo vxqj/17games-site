@@ -145,7 +145,7 @@ const PARTNERS = [
   },
   {
     name: "BRMS Trading",
-    badge: "Main Server",
+    badge: "Trusted Server",
     desc: "Bee ReMastered Simulators official Value List & Trade Server",
     url: "https://brms-values.vercel.app/",
     logo: "",
