@@ -34,7 +34,7 @@ function renderHexField(){
     const opacity = 0.05 + Math.random() * 0.10;
     html += `<svg style="top:${top}%; left:${left}%; --dur:${dur}s; --delay:${delay}s; --o:${opacity}"
               width="${size}" height="${size}" viewBox="0 0 100 100">
-              <polygon points="${points}" fill="none" stroke="#33D17A" stroke-width="2.5"/>
+              <polygon points="${points}" fill="none" stroke="#A855F7" stroke-width="2.5"/>
             </svg>`;
   }
   field.innerHTML = html;
@@ -134,9 +134,9 @@ function renderPeople(containerId, list){
   const tierColor = rank => {
     switch(rank){
       case 1: return "#FFD700";
-      case 2: return "#33D17A";
-      case 3: return "#7CFFB2";
-      default: return "#1E8A4C";
+      case 2: return "#A855F7";
+      case 3: return "#D8B4FE";
+      default: return "#5B21B6";
     }
   };
   el.innerHTML = list.map(p => {
