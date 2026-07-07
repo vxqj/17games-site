@@ -26,14 +26,14 @@ const LINKS = {
    to use the default hex-avatar placeholder instead.
 ------------------------------------------------------------- */
 const AVATARS = {
-  "itshumbe": "",
-  "q_qty": "",
-  "dark_gamer0yt": "",
-  "OneTech": "",
-  "nikolajc2008": "",
-  "petere1711": "",
-  "nathan": "",        // 30000000000000 / nathan
-  "print_invictus": "",
-  "wdnter": "",
-  "stormy_vfx": "",
+  "itshumbe": "https://files.catbox.moe/tfkqaf.webp",
+  "q_qty": "https://files.catbox.moe/nhg0lb.webp",
+  "dark_gamer0yt": "https://files.catbox.moe/mg0hk3.webp",
+  "OneTech": "https://files.catbox.moe/qb7ccc.webp",
+  "nikolajc2008": "https://files.catbox.moe/3q34dm.webp",
+  "petere1711": "https://files.catbox.moe/yp2q3b.webp",
+  "nathan": "https://files.catbox.moe/troqx8.webp",        // 30000000000000 / nathan
+  "print_invictus": "https://files.catbox.moe/qb2yi4.webp",
+  "wdnter": "https://files.catbox.moe/6yvoo5.webp",
+  "stormy_vfx": "https://files.catbox.moe/0zqrin.webp",
 };
