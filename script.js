@@ -141,7 +141,8 @@ function renderZones(){
 
     const features = z.features.map(f => {
       if (typeof f === "string") return `<span class="feature-pill">${f}</span>`;
-      return `<span class="feature-pill has-popup" data-popup="${f.popup}">${f.label}</span>`;
+      if (f.popup) return `<span class="feature-pill has-popup" data-popup="${f.popup}">${f.label}</span>`;
+      return `<span class="feature-pill">${f.label}</span>`;
     }).join("");
 
     const hives = z.hives.map(h => `
