@@ -1,6 +1,6 @@
 /* ============================================================
    RENDER LOGIC — you shouldn't need to edit this file.
-   Edit config.js (names/avatars/links) or data.js (zones/roles) instead.
+   Edit config.js (names/avatars/links) or data.js (zones/roles/partners) instead.
    ============================================================ */
 
 document.addEventListener("DOMContentLoaded", () => {
@@ -15,6 +15,7 @@ document.addEventListener("DOMContentLoaded", () => {
   renderZones();
   renderPeople("staffGrid", STAFF);
   renderPeople("devGrid", DEVELOPERS);
+  renderPartners();
   setupNav();
   setupScrollReveal();
   setupHoverPopup();
@@ -27,6 +28,7 @@ function setupHoverPopup(){
   popup.innerHTML = `<img alt="">`;
   document.body.appendChild(popup);
   const img = popup.querySelector("img");
+  let current = null;
 
   const show = (el) => {
     const src = el.dataset.popup;
@@ -36,8 +38,12 @@ function setupHoverPopup(){
     popup.style.left = `${rect.left + rect.width / 2}px`;
     popup.style.top = `${rect.top - 12}px`;
     popup.classList.add("visible");
+    current = el;
   };
-  const hide = () => popup.classList.remove("visible");
+  const hide = () => {
+    popup.classList.remove("visible");
+    current = null;
+  };
 
   document.addEventListener("mouseover", (e) => {
     const target = e.target.closest(".has-popup");
@@ -47,10 +53,19 @@ function setupHoverPopup(){
     const target = e.target.closest(".has-popup");
     if (target) hide();
   });
+  // touch devices: tap to toggle, since there's no hover
+  document.addEventListener("touchstart", (e) => {
+    const target = e.target.closest(".has-popup");
+    if (target) {
+      current === target ? hide() : show(target);
+    } else if (current) {
+      hide();
+    }
+  }, { passive: true });
   // keep it glued to the element on scroll, in case the page moves mid-hover
   window.addEventListener("scroll", () => {
     if (popup.classList.contains("visible")){
-      const hovered = document.querySelector(".has-popup:hover");
+      const hovered = document.querySelector(".has-popup:hover") || current;
       if (hovered) show(hovered); else hide();
     }
   }, { passive: true });
@@ -77,16 +92,36 @@ function renderHexField(){
   field.innerHTML = html;
 }
 
+/* ---------------- icons ---------------- */
+function discordIcon(){
+  return `<svg viewBox="0 0 24 24" fill="currentColor"><path d="M20.317 4.37a19.79 19.79 0 0 0-4.885-1.515.07.07 0 0 0-.079.037c-.21.375-.444.865-.608 1.25a18.27 18.27 0 0 0-5.487 0 12.64 12.64 0 0 0-.618-1.25.07.07 0 0 0-.079-.037A19.74 19.74 0 0 0 3.677 4.37a.07.07 0 0 0-.032.028C.533 9.046-.32 13.58.099 18.058a.082.082 0 0 0 .031.056 19.9 19.9 0 0 0 5.993 3.03.078.078 0 0 0 .084-.028 14.09 14.09 0 0 0 1.226-1.994.076.076 0 0 0-.041-.106 13.1 13.1 0 0 1-1.872-.892.077.077 0 0 1-.008-.128c.126-.094.252-.192.372-.291a.074.074 0 0 1 .077-.01c3.928 1.793 8.18 1.793 12.061 0a.074.074 0 0 1 .079.01c.12.099.246.198.373.292a.077.077 0 0 1-.007.128 12.3 12.3 0 0 1-1.873.891.076.076 0 0 0-.041.107c.36.698.772 1.362 1.225 1.993a.076.076 0 0 0 .084.029 19.84 19.84 0 0 0 6.002-3.03.077.077 0 0 0 .032-.055c.5-5.177-.838-9.674-3.549-13.66a.061.061 0 0 0-.031-.029zM8.02 15.33c-1.183 0-2.157-1.086-2.157-2.419 0-1.333.956-2.419 2.157-2.419 1.211 0 2.176 1.095 2.157 2.419 0 1.333-.956 2.419-2.157 2.419zm7.975 0c-1.183 0-2.157-1.086-2.157-2.419 0-1.333.955-2.419 2.157-2.419 1.211 0 2.176 1.095 2.157 2.419 0 1.333-.946 2.419-2.157 2.419z"/></svg>`;
+}
+function robloxIcon(){
+  return `<svg viewBox="0 0 24 24" fill="currentColor"><path d="M4 4h7v7H4V4Zm9 9h7v7h-7v-7ZM4 13h7v7H4v-7ZM13 4h7v7h-7V4Z"/></svg>`;
+}
+function starIcon(){
+  return `<svg viewBox="0 0 24 24" fill="currentColor" width="14" height="14"><path d="M12 2l2.9 6.26L22 9.27l-5 4.87L18.2 21 12 17.77 5.8 21 7 14.14l-5-4.87 7.1-1.01L12 2z"/></svg>`;
+}
+function externalIcon(){
+  return `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="12" height="12"><path d="M7 17L17 7M9 7h8v8"/></svg>`;
+}
+function partnerIcon(icon){
+  if (icon === "rocket") {
+    return `<svg viewBox="0 0 24 24" fill="currentColor" width="13" height="13"><path d="M12 2c2.5 2 4 5.5 4 9 0 1.5-.3 2.8-.8 4l2.6 2.6-1.4 1.4-2.6-2.6c-1.2.5-2.5.8-4 .8v-3c1.7 0 3-.3 4-1-1-3-2-6-2-11zM6 13.6C6 17 8 20 8 20l1.6-1.6C8.7 17.4 8 15.6 8 13.6c0-1 .2-2 .6-3L6 13.6z"/></svg>`;
+  }
+  return `<svg viewBox="0 0 24 24" fill="currentColor" width="13" height="13"><path d="M20 7h-2.2c.1-.3.2-.7.2-1a2.5 2.5 0 0 0-4.5-1.5L12 6.1l-1.5-1.6A2.5 2.5 0 0 0 6 6a2.5 2.5 0 0 0 .2 1H4a1 1 0 0 0-1 1v3a1 1 0 0 0 1 1h16a1 1 0 0 0 1-1V8a1 1 0 0 0-1-1zM4 13v6a2 2 0 0 0 2 2h4v-8H4zm10 8h4a2 2 0 0 0 2-2v-6h-6v8z"/></svg>`;
+}
+
 /* ---------------- home CTAs ---------------- */
 function renderCtas(){
   const el = document.getElementById("ctaRow");
   el.innerHTML = `
     <a class="cta primary" href="${LINKS.discord}" target="_blank" rel="noopener">
-      <svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 2a10 10 0 1 0 10 10A10 10 0 0 0 12 2Zm3.6 13.6c-.2.3-.5.6-.9.6-1 0-2.2-.7-3.1-1.2-1.1.5-2.2.9-3.4.9-.4 0-.7-.1-.9-.4-.2-.3-.1-.7.2-.9.6-.5 1.1-1.1 1.4-1.8-1-.4-1.9-1-2.6-1.9-.2-.3-.1-.7.2-.9.3-.2.7-.1.9.2.9 1.1 2.2 1.8 3.7 1.8s2.8-.7 3.7-1.8c.2-.3.6-.4.9-.2.3.2.4.6.2.9-.7.9-1.6 1.5-2.6 1.9.3.7.8 1.3 1.4 1.8.3.2.4.6.2.9Z"/></svg>
+      ${discordIcon()}
       Join our Discord
     </a>
     <a class="cta secondary" href="${LINKS.roblox}" target="_blank" rel="noopener">
-      <svg viewBox="0 0 24 24" fill="currentColor"><path d="M4 4h7v7H4V4Zm9 9h7v7h-7v-7ZM4 13h7v7H4v-7ZM13 4h7v7h-7V4Z"/></svg>
+      ${robloxIcon()}
       Join the Roblox Group
     </a>
   `;
@@ -110,6 +145,7 @@ function renderSectionCards(){
     { view: "viewZones", eyebrow: "Progression", title: "Zones & Hives", desc: "All 12 zones, every hive cost, both rebirths and the secret area." },
     { view: "viewStaff", eyebrow: "Credits", title: "Staff & Credits", desc: "Meet the management team behind 17Games." },
     { view: "viewDevs", eyebrow: "Credits", title: "Developers", desc: "The people who build and maintain the game." },
+    { view: "viewPartners", eyebrow: "Community", title: "Partners", desc: "Trusted communities offering trading boosts, giveaways, and more." },
   ];
   const el = document.getElementById("sectionCards");
   el.innerHTML = cards.map(c => `
@@ -150,7 +186,7 @@ function renderZones(){
     `).join("");
 
     const shot = z.image
-      ? `<img src="${z.image}" alt="${z.name} screenshot" loading="lazy" onerror="this.closest('.zone-shot').innerHTML='<span>Screenshot unavailable</span>'">`
+      ? `<img src="${z.image}" alt="${z.name} screenshot" loading="lazy" referrerpolicy="no-referrer" onerror="this.closest('.zone-shot').innerHTML='<span>Screenshot unavailable</span>'">`
       : `<span>Screenshot coming soon</span>`;
 
     return `
@@ -184,7 +220,7 @@ function renderPeople(containerId, list){
     const displayName = p.displayName || p.user;
     const color = tierColor(p.rank || 4);
     const avatarInner = link
-      ? `<img src="${link}" alt="${displayName}">`
+      ? `<img src="${link}" alt="${displayName}" referrerpolicy="no-referrer" onerror="this.replaceWith(Object.assign(document.createElement('span'),{className:'initials',textContent:'${initials(displayName)}'}))">`
       : `<span class="initials">${initials(displayName)}</span>`;
     return `
       <div class="person-card" style="--card-tier:${color}">
@@ -192,6 +228,31 @@ function renderPeople(containerId, list){
         <h4>${displayName}</h4>
         <div class="role">${p.role}</div>
         ${p.sub ? `<div class="sub">${p.sub}</div>` : ""}
+      </div>
+    `;
+  }).join("");
+}
+
+function renderPartners(){
+  const el = document.getElementById("partnersGrid");
+  if (!el) return;
+  el.innerHTML = PARTNERS.map(p => {
+    const logo = p.logo
+      ? `<img src="${p.logo}" alt="${p.name}" referrerpolicy="no-referrer" onerror="this.replaceWith(Object.assign(document.createElement('span'),{className:'partner-initials',textContent:'${initials(p.name)}'}))">`
+      : `<span class="partner-initials">${initials(p.name)}</span>`;
+    const tags = p.tags.map(t => `<span class="feature-pill partner-pill">${partnerIcon(t.icon)}${t.label}</span>`).join("");
+    return `
+      <div class="partner-card">
+        <div class="partner-badge">${starIcon()}${p.badge}</div>
+        <div class="partner-top">
+          <div class="partner-logo">${logo}</div>
+          <div>
+            <h4>${p.name}</h4>
+            <a class="partner-visit" href="${p.url}" target="_blank" rel="noopener">Visit ${externalIcon()}</a>
+          </div>
+        </div>
+        <p class="partner-desc">${p.desc}</p>
+        <div class="tag-row partner-tags">${tags}</div>
       </div>
     `;
   }).join("");
@@ -228,6 +289,6 @@ function setupScrollReveal(){
 }
 
 function reScan(){
-  document.querySelectorAll(".zone-node:not(.visible), .person-card:not(.visible)")
+  document.querySelectorAll(".zone-node:not(.visible), .person-card:not(.visible), .partner-card:not(.visible)")
     .forEach(el => revealObserver.observe(el));
 }
