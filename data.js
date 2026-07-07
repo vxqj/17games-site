@@ -112,7 +112,7 @@ const ZONES = [
 
 /* rank determines the glow color tier on the credits page */
 const STAFF = [
-  { user: "itshumbe",        role: "Owner",                       rank: 1 },
+  { user: "itshumbe",        role: "Owner",                       rank: 1, sub: "Creator / Founder Of 17Games!" },
   { user: "q_qty",           role: "CEO",                          rank: 2 },
   { user: "dark_gamer0yt",   role: "CTO",                          rank: 2 },
   { user: "OneTech",         role: "COO",                          rank: 2 },
@@ -122,7 +122,7 @@ const STAFF = [
 ];
 
 const DEVELOPERS = [
-  { user: "itshumbe",        role: "Developer" },
+  { user: "itshumbe",        role: "Developer", sub: "Creator / Founder Of 17Games!" },
   { user: "dark_gamer0yt",   role: "Developer" },
   { user: "print_invictus",  role: "Developer" },
   { user: "q_qty",           role: "Developer" },
