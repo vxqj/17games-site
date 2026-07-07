@@ -337,6 +337,37 @@ button{ font-family: inherit; }
   transition: border-color .3s var(--ease), color .3s var(--ease);
 }
 .feature-pill:hover{ border-color: var(--purple); color: var(--text); }
+.feature-pill.has-popup, .tag.has-popup{
+  cursor: pointer;
+  text-decoration: underline dotted rgba(216,180,254,0.55);
+  text-underline-offset: 3px;
+}
+.feature-pill.has-popup:hover{ background: rgba(168,85,247,0.10); }
+.tag.has-popup:hover{ filter: brightness(1.15); }
+
+/* ---------------- hover popup image ---------------- */
+.hover-popup{
+  position: fixed;
+  z-index: 999;
+  transform: translate(-50%, -100%) scale(.94);
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity .22s var(--ease), transform .22s var(--ease);
+}
+.hover-popup.visible{
+  opacity: 1;
+  transform: translate(-50%, -112%) scale(1);
+}
+.hover-popup img{
+  display:block;
+  max-width: min(340px, 82vw);
+  max-height: 260px;
+  width: auto; height: auto;
+  border-radius: 12px;
+  border: 1px solid rgba(216,180,254,0.4);
+  box-shadow: 0 16px 40px rgba(0,0,0,0.55), 0 0 0 1px rgba(168,85,247,0.15);
+  background: var(--surface);
+}
 
 .hive-list{ margin-top: 16px; display:flex; flex-direction:column; gap:8px; }
 .hive-list li{
