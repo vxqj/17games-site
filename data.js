@@ -1,6 +1,6 @@
 /* ============================================================
    GAME DATA
-   Zones, hives, staff & developers.
+   Zones, hives, staff, developers & partners.
    ============================================================ */
 
 const ZONES = [
@@ -128,4 +128,27 @@ const DEVELOPERS = [
   { user: "q_qty",           role: "Developer" },
   { user: "wdnter",          role: "Developer" },
   { user: "stormy_vfx",      role: "Developer" },
+];
+
+/* ------------------------------------------------------------
+   PARTNERS — shown on the Partners page.
+   logo: leave "" to use initials instead of an image.
+------------------------------------------------------------- */
+const PARTNERS = [
+  {
+    name: "17 Games!",
+    badge: "Main Server",
+    desc: "Official 17 Games Community!",
+    url: LINKS.discord,
+    logo: SITE_CONFIG.logo,
+    tags: [ { icon: "rocket", label: "Trading Boosts" }, { icon: "gift", label: "Giveaways" } ],
+  },
+  {
+    name: "BRMS Trading",
+    badge: "Main Server",
+    desc: "Our official Discord community — trading boost servers, giveaways, active traders and more.",
+    url: "https://brms-values.vercel.app/",
+    logo: "",
+    tags: [ { icon: "rocket", label: "Trading Boosts" }, { icon: "gift", label: "Giveaways" } ],
+  },
 ];
