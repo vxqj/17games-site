@@ -102,7 +102,7 @@ const STAFF = [
 ];
 
 const DEVELOPERS = [
-  { user: "itshumbe",        role: "Developer" },
+  { user: "itshumbe",        role: "Developer", sub: "Creator / Founder Of 17Games" },
   { user: "dark_gamer0yt",   role: "Developer" },
   { user: "print_invictus",  role: "Developer" },
   { user: "q_qty",           role: "Developer" },
