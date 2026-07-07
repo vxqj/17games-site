@@ -1,6 +1,6 @@
 /* ============================================================
    RENDER LOGIC — you shouldn't need to edit this file.
-   Edit config.js (names/avatars) or data.js (zones/roles) instead.
+   Edit config.js (names/avatars/links) or data.js (zones/roles) instead.
    ============================================================ */
 
 document.addEventListener("DOMContentLoaded", () => {
@@ -8,7 +8,10 @@ document.addEventListener("DOMContentLoaded", () => {
   document.querySelectorAll("[data-site-name]").forEach(el => el.textContent = SITE_CONFIG.siteName);
   document.querySelectorAll("[data-tagline]").forEach(el => el.textContent = SITE_CONFIG.tagline);
 
-  renderHeroStats();
+  renderHexField();
+  renderCtas();
+  renderHomeStats();
+  renderSectionCards();
   renderZones();
   renderPeople("staffGrid", STAFF);
   renderPeople("devGrid", DEVELOPERS);
@@ -16,7 +19,43 @@ document.addEventListener("DOMContentLoaded", () => {
   setupScrollReveal();
 });
 
-function renderHeroStats(){
+/* ---------------- floating hive background ---------------- */
+function renderHexField(){
+  const field = document.getElementById("hexField");
+  const points = "50,3 93,26 93,74 50,97 7,74 7,26";
+  const count = window.innerWidth < 760 ? 10 : 18;
+  let html = "";
+  for (let i = 0; i < count; i++){
+    const size = 40 + Math.random() * 90;
+    const top = Math.random() * 100;
+    const left = Math.random() * 100;
+    const dur = 10 + Math.random() * 10;
+    const delay = Math.random() * -20;
+    const opacity = 0.05 + Math.random() * 0.10;
+    html += `<svg style="top:${top}%; left:${left}%; --dur:${dur}s; --delay:${delay}s; --o:${opacity}"
+              width="${size}" height="${size}" viewBox="0 0 100 100">
+              <polygon points="${points}" fill="none" stroke="#33D17A" stroke-width="2.5"/>
+            </svg>`;
+  }
+  field.innerHTML = html;
+}
+
+/* ---------------- home CTAs ---------------- */
+function renderCtas(){
+  const el = document.getElementById("ctaRow");
+  el.innerHTML = `
+    <a class="cta primary" href="${LINKS.discord}" target="_blank" rel="noopener">
+      <svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 2a10 10 0 1 0 10 10A10 10 0 0 0 12 2Zm3.6 13.6c-.2.3-.5.6-.9.6-1 0-2.2-.7-3.1-1.2-1.1.5-2.2.9-3.4.9-.4 0-.7-.1-.9-.4-.2-.3-.1-.7.2-.9.6-.5 1.1-1.1 1.4-1.8-1-.4-1.9-1-2.6-1.9-.2-.3-.1-.7.2-.9.3-.2.7-.1.9.2.9 1.1 2.2 1.8 3.7 1.8s2.8-.7 3.7-1.8c.2-.3.6-.4.9-.2.3.2.4.6.2.9-.7.9-1.6 1.5-2.6 1.9.3.7.8 1.3 1.4 1.8.3.2.4.6.2.9Z"/></svg>
+      Join our Discord
+    </a>
+    <a class="cta secondary" href="${LINKS.roblox}" target="_blank" rel="noopener">
+      <svg viewBox="0 0 24 24" fill="currentColor"><path d="M4 4h7v7H4V4Zm9 9h7v7h-7v-7ZM4 13h7v7H4v-7ZM13 4h7v7h-7V4Z"/></svg>
+      Join the Roblox Group
+    </a>
+  `;
+}
+
+function renderHomeStats(){
   const totalHives = ZONES.reduce((sum, z) => sum + z.hives.length, 0);
   const rebirths = ZONES.filter(z => z.tags.some(t => t.type === "rebirth")).length;
   const stats = [
@@ -24,10 +63,29 @@ function renderHeroStats(){
     { value: totalHives, label: "Hives" },
     { value: rebirths, label: "Rebirths" },
   ];
-  const el = document.getElementById("heroStats");
-  el.innerHTML = stats.map(s => `
+  document.getElementById("homeStats").innerHTML = stats.map(s => `
     <div><strong>${s.value}</strong><span>${s.label}</span></div>
   `).join("");
+}
+
+function renderSectionCards(){
+  const cards = [
+    { view: "viewZones", eyebrow: "Progression", title: "Zones & Hives", desc: "All 12 zones, every hive cost, both rebirths and the secret area." },
+    { view: "viewStaff", eyebrow: "Credits", title: "Staff & Credits", desc: "Meet the management team behind 17Games." },
+    { view: "viewDevs", eyebrow: "Credits", title: "Developers", desc: "The people who build and maintain the game." },
+  ];
+  const el = document.getElementById("sectionCards");
+  el.innerHTML = cards.map(c => `
+    <div class="section-card" data-view="${c.view}">
+      <span class="tag-eyebrow">${c.eyebrow}</span>
+      <h3>${c.title}</h3>
+      <p>${c.desc}</p>
+      <div class="arrow">View &rarr;</div>
+    </div>
+  `).join("");
+  el.querySelectorAll(".section-card").forEach(card => {
+    card.addEventListener("click", () => switchView(card.dataset.view));
+  });
 }
 
 function initials(name){
@@ -61,14 +119,13 @@ function renderZones(){
     `;
   }).join("");
 
-  // try to load a screenshot per zone from /images/<key>.png — falls back silently
   wrap.querySelectorAll(".zone-shot").forEach(shot => {
     const key = shot.dataset.zone;
     const img = new Image();
     img.src = `images/${key}.png`;
     img.alt = `${key} screenshot`;
     img.onload = () => { shot.innerHTML = ""; shot.appendChild(img); };
-    img.onerror = () => {}; // keep placeholder text
+    img.onerror = () => {};
   });
 }
 
@@ -76,10 +133,10 @@ function renderPeople(containerId, list){
   const el = document.getElementById(containerId);
   const tierColor = rank => {
     switch(rank){
-      case 1: return "#FFD700";  // owner
-      case 2: return "#FF9F45";  // exec
-      case 3: return "#FFB627";  // head of staff
-      default: return "#C9A6F5"; // everyone else / devs
+      case 1: return "#FFD700";
+      case 2: return "#33D17A";
+      case 3: return "#7CFFB2";
+      default: return "#1E8A4C";
     }
   };
   el.innerHTML = list.map(p => {
@@ -91,7 +148,7 @@ function renderPeople(containerId, list){
       : `<span class="initials">${initials(displayName)}</span>`;
     return `
       <div class="person-card" style="--card-tier:${color}">
-        <div class="avatar-hex">${avatarInner}</div>
+        <div class="avatar-circle">${avatarInner}</div>
         <h4>${displayName}</h4>
         <div class="role">${p.role}</div>
         ${p.sub ? `<div class="sub">${p.sub}</div>` : ""}
@@ -100,35 +157,37 @@ function renderPeople(containerId, list){
   }).join("");
 }
 
+function switchView(viewId){
+  document.querySelectorAll(".nav-links button").forEach(b => {
+    b.classList.toggle("active", b.dataset.view === viewId);
+  });
+  document.querySelectorAll(".view").forEach(v => {
+    v.classList.toggle("active", v.id === viewId);
+  });
+  window.scrollTo({ top: 0, behavior: "smooth" });
+  reScan();
+}
+
 function setupNav(){
-  const buttons = document.querySelectorAll(".nav-links button");
-  const views = document.querySelectorAll(".view");
-  buttons.forEach(btn => {
-    btn.addEventListener("click", () => {
-      buttons.forEach(b => b.classList.remove("active"));
-      views.forEach(v => v.classList.remove("active"));
-      btn.classList.add("active");
-      document.getElementById(btn.dataset.view).classList.add("active");
-      window.scrollTo({ top: 0, behavior: "smooth" });
-    });
+  document.querySelectorAll(".nav-links button").forEach(btn => {
+    btn.addEventListener("click", () => switchView(btn.dataset.view));
   });
 }
 
+let revealObserver;
 function setupScrollReveal(){
-  const observer = new IntersectionObserver((entries) => {
+  revealObserver = new IntersectionObserver((entries) => {
     entries.forEach(entry => {
       if (entry.isIntersecting){
         entry.target.classList.add("visible");
-        observer.unobserve(entry.target);
+        revealObserver.unobserve(entry.target);
       }
     });
   }, { threshold: 0.15 });
+  reScan();
+}
 
-  const watch = () => {
-    document.querySelectorAll(".zone-node:not(.visible), .person-card:not(.visible)")
-      .forEach(el => observer.observe(el));
-  };
-  watch();
-  // re-scan whenever a view becomes active (elements may not have existed yet)
-  document.querySelectorAll(".nav-links button").forEach(btn => btn.addEventListener("click", watch));
+function reScan(){
+  document.querySelectorAll(".zone-node:not(.visible), .person-card:not(.visible)")
+    .forEach(el => revealObserver.observe(el));
 }
