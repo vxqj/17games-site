@@ -107,8 +107,8 @@ body::before {
     background:
     linear-gradient(
         90deg,
-        #ffd700,
-        #ff9900
+        #00ff66,
+        #00aa44
     );
 
     -webkit-background-clip:text;
