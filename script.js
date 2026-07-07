@@ -17,7 +17,44 @@ document.addEventListener("DOMContentLoaded", () => {
   renderPeople("devGrid", DEVELOPERS);
   setupNav();
   setupScrollReveal();
+  setupHoverPopup();
 });
+
+/* ---------------- hover popup (leaderboard / secret area images) ---------------- */
+function setupHoverPopup(){
+  const popup = document.createElement("div");
+  popup.className = "hover-popup";
+  popup.innerHTML = `<img alt="">`;
+  document.body.appendChild(popup);
+  const img = popup.querySelector("img");
+
+  const show = (el) => {
+    const src = el.dataset.popup;
+    if (!src) return;
+    img.src = src;
+    const rect = el.getBoundingClientRect();
+    popup.style.left = `${rect.left + rect.width / 2}px`;
+    popup.style.top = `${rect.top - 12}px`;
+    popup.classList.add("visible");
+  };
+  const hide = () => popup.classList.remove("visible");
+
+  document.addEventListener("mouseover", (e) => {
+    const target = e.target.closest(".has-popup");
+    if (target) show(target);
+  });
+  document.addEventListener("mouseout", (e) => {
+    const target = e.target.closest(".has-popup");
+    if (target) hide();
+  });
+  // keep it glued to the element on scroll, in case the page moves mid-hover
+  window.addEventListener("scroll", () => {
+    if (popup.classList.contains("visible")){
+      const hovered = document.querySelector(".has-popup:hover");
+      if (hovered) show(hovered); else hide();
+    }
+  }, { passive: true });
+}
 
 /* ---------------- floating hive background ---------------- */
 function renderHexField(){
@@ -96,11 +133,24 @@ function renderZones(){
   const wrap = document.getElementById("zonePath");
   wrap.innerHTML = ZONES.map((z, i) => {
     const side = i % 2 === 0 ? "side-left" : "side-right";
-    const tags = z.tags.map(t => `<span class="tag ${t.type}">${t.label}</span>`).join("");
-    const features = z.features.map(f => `<span class="feature-pill">${f}</span>`).join("");
+
+    const tags = z.tags.map(t => t.popup
+      ? `<span class="tag ${t.type} has-popup" data-popup="${t.popup}">${t.label}</span>`
+      : `<span class="tag ${t.type}">${t.label}</span>`
+    ).join("");
+
+    const features = z.features.map(f => {
+      if (typeof f === "string") return `<span class="feature-pill">${f}</span>`;
+      return `<span class="feature-pill has-popup" data-popup="${f.popup}">${f.label}</span>`;
+    }).join("");
+
     const hives = z.hives.map(h => `
       <li><span class="hive-name">${h.name}</span><span class="hive-cost">${h.cost}</span></li>
     `).join("");
+
+    const shot = z.image
+      ? `<img src="${z.image}" alt="${z.name} screenshot" loading="lazy" onerror="this.closest('.zone-shot').innerHTML='<span>Screenshot unavailable</span>'">`
+      : `<span>Screenshot coming soon</span>`;
 
     return `
       <div class="zone-node ${side}" style="--zone-accent:${z.accent}; --zone-glow:${z.accent}66">
@@ -111,22 +161,11 @@ function renderZones(){
           ${tags ? `<div class="tag-row">${tags}</div>` : ""}
           ${features ? `<div class="feature-list">${features}</div>` : ""}
           ${hives ? `<ul class="hive-list">${hives}</ul>` : ""}
-          <div class="zone-shot" data-zone="${z.key}">
-            <span>Screenshot coming soon</span>
-          </div>
+          <div class="zone-shot">${shot}</div>
         </div>
       </div>
     `;
   }).join("");
-
-  wrap.querySelectorAll(".zone-shot").forEach(shot => {
-    const key = shot.dataset.zone;
-    const img = new Image();
-    img.src = `images/${key}.png`;
-    img.alt = `${key} screenshot`;
-    img.onload = () => { shot.innerHTML = ""; shot.appendChild(img); };
-    img.onerror = () => {};
-  });
 }
 
 function renderPeople(containerId, list){
