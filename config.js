@@ -7,7 +7,16 @@
 const SITE_CONFIG = {
   // Shown in the nav bar and browser tab.
   siteName: "17Games",
-  tagline: "The unofficial atlas of every zone, hive & rebirth.",
+  tagline: "The official info hub — zones, hives, rebirths & the team behind it.",
+  logo: "images/logo.png",
+};
+
+/* ------------------------------------------------------------
+   SOCIAL LINKS — edit these two and every button on the site updates.
+------------------------------------------------------------- */
+const LINKS = {
+  discord: "https://discord.gg/17games",
+  roblox: "https://www.roblox.com/communities/35666413/17Games#!/about",
 };
 
 /* ------------------------------------------------------------
