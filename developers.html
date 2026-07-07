@@ -1,1 +1,184 @@
+<!DOCTYPE html>
+<html lang="en">
 
+<head>
+
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>17Games | Developers</title>
+
+<link rel="stylesheet" href="css/style.css">
+
+</head>
+
+
+
+<body>
+
+
+<header class="navbar">
+
+
+<div class="logo">
+
+<h1>17Games</h1>
+
+<p>Bee ReMastered</p>
+
+</div>
+
+
+
+
+<nav>
+
+<a href="index.html">Home</a>
+
+<a href="zones.html">Zones</a>
+
+<a href="staff.html">Staff</a>
+
+<a href="developers.html">Developers</a>
+
+</nav>
+
+
+</header>
+
+
+
+
+
+
+
+<section class="page-header">
+
+
+<h2>
+Bee ReMastered Developers
+</h2>
+
+
+<p>
+The talented developers behind 17Games and Bee ReMastered.
+</p>
+
+
+</section>
+
+
+
+
+
+
+
+
+
+<section class="team">
+
+
+<div id="developers-container" class="card-container">
+
+
+</div>
+
+
+</section>
+
+
+
+
+
+
+
+
+<footer>
+
+
+<h3>
+17Games
+</h3>
+
+
+<p>
+© 2026 17Games. All Rights Reserved.
+</p>
+
+
+</footer>
+
+
+
+
+
+
+
+
+<script src="js/config.js"></script>
+
+<script src="js/main.js"></script>
+
+
+
+
+<script>
+
+
+const developerContainer = document.getElementById("developers-container");
+
+
+
+CONFIG.developers.forEach(dev => {
+
+
+
+const card = document.createElement("div");
+
+
+card.className = "card developer-card";
+
+
+
+card.innerHTML = `
+
+
+<img
+src="${dev.image}"
+alt="${dev.username}"
+class="profile-image"
+>
+
+
+
+<h3>
+${dev.username}
+</h3>
+
+
+
+<p>
+${dev.role}
+</p>
+
+
+
+`;
+
+
+
+developerContainer.appendChild(card);
+
+
+
+});
+
+
+
+</script>
+
+
+
+</body>
+
+</html>
